@@ -8,11 +8,18 @@ namespace Main.API.Persistance
         public MainDbContext(DbContextOptions<MainDbContext> options)
             : base(options)
         { }
+
+        public DbSet<Article> Articles { get; set; }
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            
+            builder.Entity<Article>()
+                .ToTable("Articles")
+                .HasKey(a => a.Id);
+                
         }
     }
 }

@@ -1,3 +1,7 @@
+using Main.API.Persistance;
+using Main.API.Services;
+using Main.API.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 namespace Main.API.Extensions;
@@ -42,5 +46,12 @@ public static class ServicesExtension
         });
 
         return services;
+    }
+
+    //public static void 
+
+    public static void AddArticleService(this IServiceCollection services) 
+    {
+        services.AddScoped<IArticleService, ArticleService>();
     }
 }

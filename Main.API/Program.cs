@@ -36,7 +36,9 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
 
 }, true);
 
+
 // Add services to the container.
+
 builder.Services.AddControllers()
     .AddControllersAsServices()
     .AddJsonOptions(opt =>
@@ -53,6 +55,8 @@ builder.Services.AddDataServices();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddArticleService();
 
 builder.Services.AddDbContext<MainDbContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("MainDbContext"),

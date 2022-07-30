@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Main.API.DtoModels;
+using Main.API.Persistance;
 
 namespace Main.API.Profiles
 {
@@ -6,7 +8,8 @@ namespace Main.API.Profiles
     {
         public ArticleProfile()
         {
-            //mappings       
+            CreateMap<Article, ArticleDto>();
+            CreateMap<ArticleForCreationDto, Article>();
         }
     }
 }

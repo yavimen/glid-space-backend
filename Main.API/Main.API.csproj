@@ -37,7 +37,6 @@
       <Folder Include="DtoModels\RequestModels" />
       <Folder Include="DtoModels\ResponseModels" />
       <Folder Include="Entities" />
-      <Folder Include="Services\Interfaces" />
     </ItemGroup>
 
 </Project>
