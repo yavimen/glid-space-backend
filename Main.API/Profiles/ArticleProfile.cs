@@ -9,6 +9,7 @@ namespace Main.API.Profiles
         public ArticleProfile()
         {
             CreateMap<Article, ArticleDto>();
+            CreateMap<ArticleDto, Article>();
             CreateMap<ArticleForCreationDto, Article>();
         }
     }
