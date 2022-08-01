@@ -10,12 +10,5 @@ namespace Main.API.DtoModels
         public string Content;
         [Required(ErrorMessage = "Publication date is required")]
         public DateTime PublicationDate;
-
-        public bool IsFilledFields()
-        {
-            if (Title == string.Empty || Content == string.Empty || PublicationDate == (new DateTime()))
-                return false;
-            return true;
-        }
     }
 }

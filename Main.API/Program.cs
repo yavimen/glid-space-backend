@@ -51,12 +51,10 @@ builder.Services.AddControllers()
         opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
     });
 
-builder.Services.AddDataServices();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(typeof(Program));
-
-builder.Services.AddArticleService();
+builder.Services.AddDataServices();
 
 builder.Services.AddDbContext<MainDbContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("MainDbContext"),

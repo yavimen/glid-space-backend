@@ -17,7 +17,6 @@ namespace Main.API.Persistance
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             
             builder.Entity<Article>()
-                .ToTable("Articles")
                 .HasKey(a => a.Id);
                 
         }

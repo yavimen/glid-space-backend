@@ -10,6 +10,7 @@ public static class ServicesExtension
 {
     public static IServiceCollection AddDataServices(this IServiceCollection services)
     {
+        services.AddScoped<IArticleService, ArticleService>();
         return services;
     }
     
@@ -46,12 +47,5 @@ public static class ServicesExtension
         });
 
         return services;
-    }
-
-    //public static void 
-
-    public static void AddArticleService(this IServiceCollection services) 
-    {
-        services.AddScoped<IArticleService, ArticleService>();
     }
 }

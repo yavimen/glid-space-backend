@@ -13,6 +13,8 @@ namespace Main.API.Services.Interfaces
 
         Task DeleteArticleById(int id);
 
-        Task UpgrateArticle(int id, ArticleDto article);
+        Task UpdateArticle(int id, ArticleDto article);
+
+        bool IsArticleExist(int id);
     }
 }

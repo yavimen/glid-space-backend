@@ -20,7 +20,9 @@ namespace Main.API.Services
 
         public async Task<IEnumerable<ArticleDto>> GetAllArticles()
         {
-            var articles = await _dbContext.Articles.ToListAsync();
+            var articles = _dbContext.Articles
+                .ToList()
+                .OrderBy(a=>a.PublicationDate);
 
             var articleDtos = _mapper.Map<IEnumerable<ArticleDto>>(articles);
 
@@ -29,7 +31,8 @@ namespace Main.API.Services
 
         public async Task<ArticleDto> GetArticleById(int ArticleId)
         {
-            var article = await _dbContext.Articles.FirstOrDefaultAsync(artc => artc.Id == ArticleId);
+            var article = await _dbContext.Articles
+                .FirstOrDefaultAsync(a => a.Id == ArticleId);
 
             var articleDto = _mapper.Map<ArticleDto>(article);
 
@@ -38,12 +41,10 @@ namespace Main.API.Services
 
         public async Task<ArticleDto> AddArticle(ArticleForCreationDto article)
         {
-            if (!article.IsFilledFields())
-                return null; 
-
             var articleEntity = _mapper.Map<Article>(article);
 
             await _dbContext.Articles.AddAsync(articleEntity);
+
             await _dbContext.SaveChangesAsync();
 
             var createdArticle = _mapper.Map<ArticleDto>(articleEntity);
@@ -53,40 +54,33 @@ namespace Main.API.Services
 
         public async Task DeleteArticleById(int id)
         {
-            var requestedArticle = await _dbContext.Articles.FirstOrDefaultAsync(arcl => arcl.Id == id);
-
-            if (requestedArticle == null)
-                throw new Exception("Article not found.");
+            var requestedArticle = await _dbContext.Articles
+                .FirstOrDefaultAsync(a => a.Id == id);
 
             _dbContext.Articles.Remove(requestedArticle);
-            await _dbContext.SaveChangesAsync();
 
-            return;
+            await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpgrateArticle(int id, ArticleDto article)
+        public async Task UpdateArticle(int id, ArticleDto article)
         {
-            var requestedArticle = await _dbContext.Articles.FirstOrDefaultAsync(arcl => arcl.Id == id);
+            var requestedArticle = await _dbContext.Articles
+                .FirstOrDefaultAsync(a => a.Id == id);
 
-            if (requestedArticle == null)
-                throw new Exception("Article not found.");
-
-            if (article.Content == String.Empty)
-                throw new Exception("Content is empty.");
-
-            if (article.Title == String.Empty)
-                throw new Exception("Title is empty.");
-
-            if (article.PublicationDate == new DateTime())
-                throw new Exception("Publication date is empty.");
-
-            requestedArticle.Title = article.Title;
-            requestedArticle.Content = article.Content;
-            requestedArticle.PublicationDate = article.PublicationDate;
+            requestedArticle = _mapper.Map<Article>(article);
 
             await _dbContext.SaveChangesAsync();
+        }
 
-            return;
+        public bool IsArticleExist(int id) 
+        {
+            var requestedArticle = _dbContext.Articles
+                .FirstOrDefault(a => a.Id == id);
+
+            if (requestedArticle == null)
+                return false;
+
+            return true;
         }
     }
 }

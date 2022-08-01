@@ -10,7 +10,7 @@ namespace Main.API.Controllers
 {
     [Route("articles")]
     [ApiController]
-    public class ArticlesController : Controller
+    public class ArticlesController : ControllerBase
     {
         private readonly IArticleService _articleService;
 
@@ -24,20 +24,16 @@ namespace Main.API.Controllers
         {
             var articles = await _articleService.GetAllArticles();
 
-            if (articles.ToList().Count == 0)
-                return Ok("List of articles is empty");
-
             return Ok(articles);
-
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetArticleById(int id)
+        public async Task<IActionResult> GetArticleById([FromRoute]int id)
         {
-            var article = await _articleService.GetArticleById(id);
+            if (_articleService.IsArticleExist(id) == false)
+                return NotFound("Article with id: " + id + " does not exist");
 
-            if (article == null)
-                return NotFound("Article with this id does not exist");
+            var article = _articleService.GetArticleById(id);
 
             return Ok(article);
         }
@@ -47,38 +43,28 @@ namespace Main.API.Controllers
         {
             var newArticle = await _articleService.AddArticle(article);
 
-            if (newArticle == null)
-                return BadRequest("Not all fields are filled");
-
             return Ok(newArticle);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteArticleById(int id) 
+        public async Task<IActionResult> DeleteArticleById([FromRoute]int id) 
         {
-            try
-            {
-                await _articleService.DeleteArticleById(id);
-            }
-            catch (Exception ex) 
-            {
-                return BadRequest(ex.Message);
-            }
+            if(_articleService.IsArticleExist(id) == false)
+                return NotFound("Article with id: " + id + " does not exist");
+
+            await _articleService.DeleteArticleById(id);
+
             return Ok("Article deleted");
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpgrateArticle(int id, ArticleDto article) 
+        public async Task<IActionResult> UpdateArticle([FromRoute]int id, [FromBody]ArticleDto article) 
         {
-            try
-            {
-                await _articleService.UpgrateArticle(id, article);
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
+            if (_articleService.IsArticleExist(id) == false)
+                return NotFound("Article with id:" + id + " does not exist");
 
+            await _articleService.UpdateArticle(id, article);
+            
             return Ok("Article updated.");
         }
              
