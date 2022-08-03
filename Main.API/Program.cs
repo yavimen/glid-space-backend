@@ -55,6 +55,7 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddDataServices();
+builder.Services.AddValidators();
 
 builder.Services.AddDbContext<MainDbContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("MainDbContext"),

@@ -1,7 +1,8 @@
-using Main.API.Persistance;
+using FluentValidation;
+using Main.API.DtoModels;
 using Main.API.Services;
 using Main.API.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using Main.API.Validators;
 using Microsoft.OpenApi.Models;
 
 namespace Main.API.Extensions;
@@ -48,4 +49,10 @@ public static class ServicesExtension
 
         return services;
     }
+
+    public static void AddValidators(this IServiceCollection services) 
+    {
+        services.AddScoped<IValidator<ArticleDto>, ArticleDtoValidator>();
+        services.AddScoped<IValidator<ArticleForCreationDto>, ArticleForCreationDtoValidator>();
+    } 
 }

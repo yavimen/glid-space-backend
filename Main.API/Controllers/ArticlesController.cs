@@ -1,10 +1,8 @@
-﻿using AutoMapper;
+﻿using FluentValidation;
 using Main.API.DtoModels;
-using Main.API.Persistance;
-using Main.API.Services;
+using Main.API.Extensions;
 using Main.API.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Main.API.Controllers
 {
@@ -13,10 +11,15 @@ namespace Main.API.Controllers
     public class ArticlesController : ControllerBase
     {
         private readonly IArticleService _articleService;
+        private readonly IValidator<ArticleDto> _articleDtoValidator;
+        private readonly IValidator<ArticleForCreationDto> _articleForCreationDtoValidator;
 
-        public ArticlesController(IArticleService articleService)
+        public ArticlesController(IArticleService articleService, IValidator<ArticleDto> articleDtoValidator,
+            IValidator<ArticleForCreationDto> articleForCreationDtoValidator)
         {
             _articleService = articleService;
+            _articleDtoValidator = articleDtoValidator;
+            _articleForCreationDtoValidator = articleForCreationDtoValidator;
         }
 
         [HttpGet]
@@ -33,7 +36,7 @@ namespace Main.API.Controllers
             if (_articleService.IsArticleExist(id) == false)
                 return NotFound("Article with id: " + id + " does not exist");
 
-            var article = _articleService.GetArticleById(id);
+            var article = await _articleService.GetArticleById(id);
 
             return Ok(article);
         }
@@ -41,6 +44,13 @@ namespace Main.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewArticle([FromBody] ArticleForCreationDto article)
         {
+            var validationResult = _articleForCreationDtoValidator.Validate(article);
+
+            if (validationResult.IsValid == false) 
+            {
+                return BadRequest(validationResult.Errors.ToStringErrorMessages());
+            }
+
             var newArticle = await _articleService.AddArticle(article);
 
             return Ok(newArticle);
@@ -62,6 +72,13 @@ namespace Main.API.Controllers
         {
             if (_articleService.IsArticleExist(id) == false)
                 return NotFound("Article with id:" + id + " does not exist");
+
+            var validationResult = _articleDtoValidator.Validate(article);
+
+            if (validationResult.IsValid == false)
+            {
+                return BadRequest(validationResult.Errors.ToStringErrorMessages());
+            }
 
             await _articleService.UpdateArticle(id, article);
             
