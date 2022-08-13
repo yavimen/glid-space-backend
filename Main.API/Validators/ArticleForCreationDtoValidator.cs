@@ -7,10 +7,10 @@ namespace Main.API.Validators
     {
         public ArticleForCreationDtoValidator()
         {
-            RuleFor(article => article.Title).NotNull()
+            RuleFor(article => article.Title).NotNull().NotEmpty()
                 .WithMessage("Please ensure that you have entered {PropertyName}");
 
-            RuleFor(article => article.Content).NotNull()
+            RuleFor(article => article.Content).NotNull().NotEmpty()
                 .WithMessage("Please ensure that you have entered {PropertyName}");
         }
     }

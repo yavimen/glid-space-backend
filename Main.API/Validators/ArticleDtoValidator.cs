@@ -10,13 +10,13 @@ namespace Main.API.Validators
             RuleFor(article => article.Id).NotEmpty()
                 .WithMessage("Please ensure that you have entered {PropertyName}");
 
-            RuleFor(article => article.Title).NotNull()
+            RuleFor(article => article.Title).NotNull().NotEmpty()
                 .WithMessage("Please ensure that you have entered {PropertyName}");
 
-            RuleFor(article => article.Content).NotNull()
+            RuleFor(article => article.Content).NotNull().NotEmpty()
                 .WithMessage("Please ensure that you have entered {PropertyName}");
 
-            RuleFor(article => article.PublicationDate).NotEmpty()
+            RuleFor(article => article.PublicationDate).NotEmpty().NotEmpty()
                 .WithMessage("Please ensure that you have entered {PropertyName}");
         }
     }

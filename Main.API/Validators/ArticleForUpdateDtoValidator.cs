@@ -6,7 +6,7 @@ namespace Main.API.Validators
     {
         public ArticleForUpdateDtoValidator()
         {
-            RuleFor(article => article.Content).NotNull()
+            RuleFor(article => article.Content).NotNull().NotEmpty()
                 .WithMessage("Please ensure that you have entered {PropertyName}");
         }
     }
