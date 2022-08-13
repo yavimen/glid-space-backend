@@ -43,6 +43,8 @@ namespace Main.API.Services
         {
             var articleEntity = _mapper.Map<Article>(article);
 
+            articleEntity.PublicationDate = DateTime.UtcNow;
+
             await _dbContext.Articles.AddAsync(articleEntity);
 
             await _dbContext.SaveChangesAsync();
@@ -67,7 +69,7 @@ namespace Main.API.Services
             var requestedArticle = await _dbContext.Articles
                 .FirstOrDefaultAsync(a => a.Id == id);
 
-            requestedArticle = _mapper.Map<Article>(article);
+            requestedArticle.Content = article.Content;
 
             await _dbContext.SaveChangesAsync();
         }

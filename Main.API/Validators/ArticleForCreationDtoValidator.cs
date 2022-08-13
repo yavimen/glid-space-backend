@@ -12,9 +12,6 @@ namespace Main.API.Validators
 
             RuleFor(article => article.Content).NotNull()
                 .WithMessage("Please ensure that you have entered {PropertyName}");
-
-            RuleFor(article => article.PublicationDate).NotEmpty()
-                .WithMessage("Please ensure that you have entered {PropertyName}");
         }
     }
 }

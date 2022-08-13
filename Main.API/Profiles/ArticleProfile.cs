@@ -8,10 +8,9 @@ namespace Main.API.Profiles
     {
         public ArticleProfile()
         {
-            CreateMap<Article, ArticleDto>();
-            CreateMap<ArticleDto, Article>();
+            CreateMap<Article, ArticleDto>()
+                .ReverseMap();
             CreateMap<ArticleForCreationDto, Article>();
-            CreateMap<ArticleForUpdateDto, Article>();
         }
     }
 }
