@@ -54,5 +54,6 @@ public static class ServicesExtension
     {
         services.AddScoped<IValidator<ArticleDto>, ArticleDtoValidator>();
         services.AddScoped<IValidator<ArticleForCreationDto>, ArticleForCreationDtoValidator>();
+        services.AddScoped<IValidator<ArticleForUpdateDto>, ArticleForUpdateDtoValidator>();
     } 
 }

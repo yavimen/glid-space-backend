@@ -20,9 +20,9 @@ namespace Main.API.Services
 
         public async Task<IEnumerable<ArticleDto>> GetAllArticles()
         {
-            var articles = _dbContext.Articles
-                .ToList()
-                .OrderBy(a=>a.PublicationDate);
+            var articles = await _dbContext.Articles
+                .OrderBy(a => a.PublicationDate)
+                .ToListAsync();
 
             var articleDtos = _mapper.Map<IEnumerable<ArticleDto>>(articles);
 
@@ -62,7 +62,7 @@ namespace Main.API.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task UpdateArticle(int id, ArticleDto article)
+        public async Task UpdateArticle(int id, ArticleForUpdateDto article)
         {
             var requestedArticle = await _dbContext.Articles
                 .FirstOrDefaultAsync(a => a.Id == id);
@@ -72,15 +72,12 @@ namespace Main.API.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public bool IsArticleExist(int id) 
+        public async Task<bool> IsArticleExist(int id) 
         {
-            var requestedArticle = _dbContext.Articles
-                .FirstOrDefault(a => a.Id == id);
+            var requestedArticle = await _dbContext.Articles
+                .FirstOrDefaultAsync(a => a.Id == id);
 
-            if (requestedArticle == null)
-                return false;
-
-            return true;
+            return requestedArticle == null ? false : true;
         }
     }
 }

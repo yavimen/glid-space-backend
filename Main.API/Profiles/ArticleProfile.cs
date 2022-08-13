@@ -11,6 +11,7 @@ namespace Main.API.Profiles
             CreateMap<Article, ArticleDto>();
             CreateMap<ArticleDto, Article>();
             CreateMap<ArticleForCreationDto, Article>();
+            CreateMap<ArticleForUpdateDto, Article>();
         }
     }
 }
