@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
+﻿
 namespace Main.API.Persistance
 {
     public class Article
@@ -12,5 +10,7 @@ namespace Main.API.Persistance
         public string Content { get; set; }
 
         public DateTime PublicationDate { get; set; }
+
+        public User Owner { get; set; }
     }
 }

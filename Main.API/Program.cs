@@ -39,6 +39,8 @@ builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
 
 // Add services to the container.
 
+builder.Services.ConfigureEmailService(builder.Configuration);
+
 builder.Services.AddControllers()
     .AddControllersAsServices()
     .AddJsonOptions(opt =>
@@ -60,6 +62,8 @@ builder.Services.AddValidators();
 builder.Services.AddDbContext<MainDbContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("MainDbContext"),
         act => act.MigrationsAssembly("Main.API")));
+
+builder.Services.ConfigureIdentity();
 
 builder.Services.ConfigureSwagger();
 

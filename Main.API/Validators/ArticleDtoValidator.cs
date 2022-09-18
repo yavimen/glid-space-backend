@@ -7,16 +7,24 @@ namespace Main.API.Validators
     {
         public ArticleDtoValidator()
         {
-            RuleFor(article => article.Id).NotEmpty()
+            RuleFor(article => article.Id)
+                .NotNull()
+                .NotEmpty()
                 .WithMessage("Please ensure that you have entered {PropertyName}");
 
-            RuleFor(article => article.Title).NotNull().NotEmpty()
+            RuleFor(article => article.Title)
+                .NotNull()
+                .NotEmpty()
                 .WithMessage("Please ensure that you have entered {PropertyName}");
 
-            RuleFor(article => article.Content).NotNull().NotEmpty()
+            RuleFor(article => article.Content)
+                .NotNull()
+                .NotEmpty()
                 .WithMessage("Please ensure that you have entered {PropertyName}");
 
-            RuleFor(article => article.PublicationDate).NotEmpty().NotEmpty()
+            RuleFor(article => article.PublicationDate)
+                .NotEmpty()
+                .NotEmpty()
                 .WithMessage("Please ensure that you have entered {PropertyName}");
         }
     }
